@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotelservice
+  template:
+    metadata:
+      labels:
+        app: hotelservice
+    spec:
+      containers:
+        - name: hotelservice
+          image: ghcr.io/mitchell2001b/vakantieproject:master
+          ports:
+            - containerPort: 5037
+          resources:
+            requests:
+              cpu: "50m"
+            limits:
+              cpu: "100m"
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-secret
