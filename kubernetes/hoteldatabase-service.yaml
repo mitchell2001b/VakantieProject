@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotel-db
+spec:
+  selector:
+    app: hotel-db
+  ports:
+    - protocol: TCP
+      port: 3305
+      targetPort: 3306
