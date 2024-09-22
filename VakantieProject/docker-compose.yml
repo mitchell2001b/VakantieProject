@@ -10,6 +10,29 @@ services:
     networks:
       - semester7project_network
 
+
+  elasticsearch:
+    container_name: elasticsearchContainer
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m  
+    ports:
+      - "9200:9200"
+    networks:
+      - semester7project_network
+
+  kibana:
+    container_name: kibanaContainer
+    image: docker.elastic.co/kibana/kibana:7.17.10
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearchContainer:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - semester7project_network
+    depends_on:
+      - elasticsearch
 networks:
   semester7project_network:
     name: semester7project_network

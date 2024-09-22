@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace VakantieProject.Controllers
 {
@@ -6,6 +7,7 @@ namespace VakantieProject.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -21,6 +23,11 @@ namespace VakantieProject.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            Log.Information("A WEATHERFORECAST IS BEING SEND OUT YEEH");
+            _logger.LogInformation("Getting weather forecast");
+            _logger.LogInformation("Getting weather forecast");
+            _logger.LogDebug("GETTING WEATHER DEBUG");
+            _logger.LogInformation("WeatherForecast generated successfully");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
