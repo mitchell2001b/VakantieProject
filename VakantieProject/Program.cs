@@ -27,10 +27,17 @@ builder.Services.AddCors(options =>
         });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
+/*var connectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddScoped<IHotelRepo, HotelRepo>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();*/
+builder.Services.AddScoped<IHotelRepo, HotelRepo>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
+var connectionString = builder.Configuration.GetConnectionString("SqlConnectionString");
+Debug.WriteLine(connectionString + " the shit con");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
 
 ConfigureLogging();
 Log.Information("Logging has been configured successfully.");

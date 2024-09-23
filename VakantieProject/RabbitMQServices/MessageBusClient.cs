@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using System.Text.Json;
 using System.Text;
+using System.Diagnostics;
+
 namespace VakantieProject.RabbitMQServices
 {
     public class MessageBusClient : IMessageBusClient
@@ -19,6 +21,7 @@ namespace VakantieProject.RabbitMQServices
             try
             {
                 connection = factory.CreateConnection();
+                Debug.WriteLine(connection + " SHITTY AS CON");
                 messageBusChannel = connection.CreateModel();
 
                 messageBusChannel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Direct);
@@ -34,11 +37,11 @@ namespace VakantieProject.RabbitMQServices
 
                 messageBusChannel.QueueBind(queue: queueName, exchange: "trigger", routingKey: "created");
 
-                Console.WriteLine("Connect to message bus");
+                Debug.WriteLine("Connect to message bus");
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"--> no messagebus: {ex.Message}");
+                Debug.WriteLine($"--> no messagebus: {ex.Message}");
             }
         }
         public void PublishNewCreatedHotel(HotelCreatedDto hotelCreatedDto)
