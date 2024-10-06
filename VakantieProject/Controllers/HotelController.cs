@@ -4,6 +4,9 @@ using VakantieProject.Data;
 using VakantieProject.Dtos;
 using VakantieProject.Models;
 using VakantieProject.RabbitMQServices;
+using InfluxDB.Client;
+using InfluxDB.Client.Api.Domain;
+using InfluxDB.Client.Writes;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,7 +38,31 @@ namespace VakantieProject.Controllers
 
             // Convert each Hotel entity to HotelDto
             IEnumerable<HotelDto> hotelDtos = hotels.Select(h => new HotelDto(h.Id.ToString(), h.Name, h.Price));
-            
+
+            var influxUrl = "http://localhost:8086";
+            var token = "devtoken";
+            var org = "devorg";
+            var bucket = "devbucket";
+            using (var client = InfluxDBClientFactory.Create(influxUrl, token))
+            {
+
+                var hotel = new Hotel("Hotel California", "199.99");
+
+                
+                var point = PointData
+                    .Measurement("hotels")                   
+                    .Tag("id", hotel.Id.ToString())         
+                    .Field("name", hotel.Name)                
+                    .Field("price", hotel.Price)               
+                    .Timestamp(DateTime.UtcNow, WritePrecision.Ns);  
+
+                
+                var writeApiAsync = client.GetWriteApiAsync();
+                await writeApiAsync.WritePointAsync(point, bucket, org);
+                Console.WriteLine("Hotel data written to InfluxDB");
+
+
+            }
 
             return hotelDtos;
         }

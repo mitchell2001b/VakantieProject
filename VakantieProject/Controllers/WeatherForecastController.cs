@@ -1,3 +1,6 @@
+using InfluxDB.Client;
+using InfluxDB.Client.Api.Domain;
+using InfluxDB.Client.Writes;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -23,7 +26,9 @@ namespace VakantieProject.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            Log.Information("A WEATHERFORECAST IS BEING SEND OUT YEEH");
+           
+
+             Log.Information("A WEATHERFORECAST IS BEING SEND OUT YEEH");
             _logger.LogInformation("Getting weather forecast");
             _logger.LogInformation("Getting weather forecast");
             _logger.LogDebug("GETTING WEATHER DEBUG");

@@ -33,6 +33,20 @@ services:
       - semester7project_network
     depends_on:
       - elasticsearch
+  influxdb:
+    container_name: influxdbContainer
+    image: influxdb:2.7
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=dev
+      - DOCKER_INFLUXDB_INIT_PASSWORD=devpassword
+      - DOCKER_INFLUXDB_INIT_ORG=devorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=devbucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=devtoken
+    ports:
+      - "8086:8086"
+    networks:
+      - semester7project_network
 networks:
   semester7project_network:
     name: semester7project_network
