@@ -9,7 +9,17 @@ services:
       - "15672:15672"   
     networks:
       - semester7project_network
-
+  mssql:
+    container_name: mssqlContainer
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongPass!123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    networks:
+      - semester7project_network
 
   elasticsearch:
     container_name: elasticsearchContainer
