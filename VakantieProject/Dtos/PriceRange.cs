@@ -7,5 +7,7 @@
         public float MinAmount { get; set; }
         public bool Percentage { get; set; }
         public float Boundary { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

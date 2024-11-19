@@ -131,6 +131,19 @@ namespace VakantieProject.Controllers
             return NoContent();
         }
 
+        [HttpGet("heyo")]
+        public async Task<IActionResult> TestStored()
+        {
+            SqlPriceRangeDal dal = new SqlPriceRangeDal("Server=localhost;Database=hoteldb;Trusted_Connection=True;");
+            PriceRange range = new PriceRange();
+            range.CreatedAt = DateTime.Now;
+            range.Percentage = false;
+            range.Boundary = 50;
+            range.MaxAmount = 500;
+            range.MinAmount = 100;
+            await dal.SavePriceRange(range);
+            return Ok("ok");
+        }
         /*// POST api/<HotelController>
         [HttpPost]
         public void Post([FromBody] string value)
