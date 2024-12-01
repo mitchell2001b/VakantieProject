@@ -7,11 +7,14 @@ using VakantieProject.RabbitMQServices;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VakantieProject.Controllers
 {
+
     [Route("api/Hotel")]
     [ApiController]
     public class HotelController : ControllerBase
@@ -27,6 +30,7 @@ namespace VakantieProject.Controllers
         }
 
 
+       
 
 
 
@@ -143,13 +147,37 @@ namespace VakantieProject.Controllers
             range.MinAmount = 100;
             await dal.SavePriceRange(range);
             return Ok("ok");
+
         }
         /*// POST api/<HotelController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }*/
+        [HttpGet("heyoApple")]
+        public async Task<IActionResult> TestStored2()
+        {
+            dashboardService s = new dashboardService();
+            Apple testApple = new Apple
+            {
+                Id = Guid.NewGuid(),
+                Name = "Golden Apple",
+                Description = "A rare and delicious golden apple.",
+                Price = 12.99f,
+                CreatedAt = DateTime.Now,
+                fruitvalue = new fruitvalue
+                {
+                    CalculatedDifference = 2.5f,
+                    OldValue = 10.49f,
+                    NewValue = 12.99f
+                }
+            };
+            //await  s.CreateAppleIndexWithMappingAsync();
 
+            await s.CreateApples(testApple);
+
+            return Ok("ok");
+        }
 
     }
 }
